@@ -194,6 +194,63 @@ nav .name {
   font-size: 0.95rem;
 }
 
+/* scroll cue below the contact pill: thin chevron, slow bounce, mauve at low
+   opacity. Fades out over the first 100px of scroll (where supported) so it
+   doesn't linger once the page is in motion. */
+.scroll-cue {
+  width: 22px;
+  height: 22px;
+  margin: 20px auto 0;
+  opacity: 0.7;
+  animation: scroll-cue-bounce 1.8s ease-in-out infinite;
+}
+
+.scroll-cue::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-right: 3px solid var(--accent-hi);
+  border-bottom: 3px solid var(--accent-hi);
+  transform: rotate(45deg);
+}
+
+@keyframes scroll-cue-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-cue {
+    animation:
+      scroll-cue-bounce 1.8s ease-in-out infinite,
+      scroll-cue-fade linear both;
+    animation-timeline: auto, scroll(root block);
+    animation-range: normal, 0 100px;
+  }
+}
+
+@keyframes scroll-cue-fade {
+  from {
+    opacity: 0.7;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue {
+    animation: none;
+  }
+}
+
 /* teaser sections on index.html: alternating photo/text, linking out to the full page */
 .feature {
   min-height: 100vh;

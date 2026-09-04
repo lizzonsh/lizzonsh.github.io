@@ -361,7 +361,30 @@ nav .name {
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 28px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* CSS-only scroll-driven reveal: fades/slides each card in as it scrolls into
+   view, tied directly to scroll position so it reverses when scrolling back
+   up. No JS; browsers without animation-timeline support just show the card
+   at full opacity. */
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .card {
+    animation: card-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
 }
 
 .card h2 {

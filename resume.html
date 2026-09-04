@@ -1,0 +1,175 @@
+<!DOCTYPE html> <!-- document type declaration -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- responsive meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <svg style="display:none">
+        <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+        </symbol>
+        <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </symbol>
+        <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </symbol>
+    </svg>
+    <nav>
+        <a href="index.html" class="name">Elizabeth Zonshtein</a>
+        <div class="nav-links">
+            <a href="resume.html">Resume</a>
+            <a href="analog.html">Analog Film</a>
+            <a href="up-comming-projects.html">Upcoming Projects</a>
+            <label class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
+                <input type="checkbox" id="theme-toggle">
+                <span class="theme-toggle-track"></span>
+            </label>
+        </div>
+    </nav>
+    <div class="page-header">
+        <h1 class="schibsted-bold"><span class="name">Elizabeth Zonshtein</span> <span class="title">DevOps Engineer</span></h1>
+        <div class="contact-bar">
+            <a href="mailto:lizaczon@gmail.com" aria-label="Email" title="Email">
+                <svg><use href="#icon-mail"></use></svg>
+                <span>lizaczon@gmail.com</span>
+            </a>
+            <a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+                <svg><use href="#icon-linkedin"></use></svg>
+                <span>elizabeth-zonshtein</span>
+            </a>
+            <a href="tel:+972540000000" aria-label="Phone" title="Phone">
+                <svg><use href="#icon-phone"></use></svg>
+                <span>+972&nbsp;54&nbsp;000&nbsp;0000</span>
+            </a>
+            <a href="https://github.com/lizzonsh" target="_blank" aria-label="GitHub" title="GitHub">
+                <svg><use href="#icon-github"></use></svg>
+                <span>lizzonsh</span>
+            </a>
+        </div>
+        <a href="assets/docs/Elizabeth-Zonshtein-Resume.pdf" class="button-link" target="_blank">Download Resume</a>
+    </div>
+
+    <div class="card-grid stacked">
+        <div class="card">
+            <h2>Education</h2>
+            <div class="entry">
+                <div class="entry-row">
+                    <div>
+                        <h3>Bachelor's Degree in Computer Science</h3>
+                        <p class="entry-org">The College of Management Academic Studies</p>
+                    </div>
+                    <p class="entry-date">Oct 2024 - June 2027</p>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-row">
+                    <div>
+                        <h3>IDF Officer's Course</h3>
+                        <p class="entry-org">Bahad 1 - School for Officers</p>
+                    </div>
+                    <p class="entry-date">Aug 2023 - Dec 2023</p>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-row">
+                    <div>
+                        <h3>DevOps Engineer Course</h3>
+                        <p class="entry-org">Basmach - IDF School of Computer Science</p>
+                    </div>
+                    <p class="entry-date">Mar 2022 - Jul 2022</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Experience</h2>
+
+            <div class="entry">
+                <div class="entry-row">
+                    <div>
+                        <h3>DevOps Team Lead</h3>
+                        <p class="entry-org">Israeli Defense Force</p>
+                    </div>
+                    <p class="entry-date">Jul 2024 - May 2026</p>
+                </div>
+                <ul>
+                    <li>Led an 8-member DevOps team, driving Agile Scrum roadmaps while designing and maintaining CI/CD pipelines across cloud and on-prem environments.</li>
+                    <li>Drove DevSecOps "Shift-Left" adoption org-wide by integrating SonarQube and JFrog Xray into engineering workflows.</li>
+                    <li>Built a full-stack monitoring and logging platform (Prometheus, Grafana Loki/Mimir) and rolled out ServiceNow ticketing for 500+ users.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-row">
+                    <div>
+                        <h3>DevOps Engineer</h3>
+                        <p class="entry-org">Israeli Defense Force</p>
+                    </div>
+                    <p class="entry-date">Aug 2022 - Jul 2024</p>
+                </div>
+                <ul>
+                    <li>Built CI/CD pipelines spanning Windows/Linux monoliths to Kubernetes microservices, with automation in Python, PowerShell, and Bash.</li>
+                    <li>Provisioned scalable environments via Terraform and Ansible IaC.</li>
+                    <li>Maintained DR/HA/BCP for core DevOps platforms (Azure DevOps Server, Artifactory, SonarQube, AWX, HashiCorp Vault) with strong root-cause troubleshooting.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Projects</h2>
+
+            <div class="entry">
+                <h3>Network Communication Simulation Platform</h3>
+                <ul>
+                    <li>Created an automatic and dynamic environment on Openshift that simulates communication between VMs in order to test the communication protocol between them.</li>
+                </ul>
+                <p class="entry-org">Utilized: Ansible, Infrastructure as a code, Kubevirt, Openshift, Kubernetes, Jinja2, Windows VMs.</p>
+            </div>
+
+            <div class="entry">
+                <h3>AWS ETL Deployment</h3>
+                <ul>
+                    <li>Spearheaded the full CI/CD automation of a serverless data ingestion pipeline, leveraging AWS CDK and Lambda to safely bridge external API data into an air-gapped ecosystem.</li>
+                </ul>
+                <p class="entry-org">Utilized: GitOps, GitHub Actions, AWS CDK - Python, Lambda, AWS S3, Custom Resources, VPC, Subnets.</p>
+            </div>
+
+            <div class="entry">
+                <h3>Algorithm Performance Optimization &amp; Migration</h3>
+                <ul>
+                    <li>Led the migration of algorithm workloads from physical Windows environments to OpenShift, improving runtime performance and enabling automated deployments with Helm and ArgoCD.</li>
+                </ul>
+                <p class="entry-org">Utilized: Helm, ArgoCD, Python, Azure DevOps Pipelines, Docker.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Skills</h2>
+
+            <div class="entry">
+                <h3>Soft Skills</h3>
+                <p>Team Leadership, Teamwork, Mentoring, Technical Documentation, Blameless Post-Mortems.</p>
+            </div>
+
+            <div class="entry">
+                <h3>Technical Skills</h3>
+                <p>CI/CD, Infrastructure as Code (IaC), DevSecOps, SonarQube, JFrog Xray, Prometheus, Grafana, Grafana Loki, Grafana Mimir, Kubernetes, Windows, Linux, Python, PowerShell, Bash, Terraform, Ansible, Openshift, Kubevirt, Jinja2, Windows VMs, GitOps, GitHub Actions, AWS CDK, AWS Lambda, AWS S3, Custom Resources, VPC, Subnets, Helm, ArgoCD, Azure DevOps Pipelines, Docker</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

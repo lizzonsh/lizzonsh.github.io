@@ -222,9 +222,7 @@ nav .name {
   font-size: 0.95rem;
 }
 
-/* scroll cue below the contact pill: thin chevron, slow bounce, mauve at low
-   opacity. Fades out over the first 100px of scroll (where supported) so it
-   doesn't linger once the page is in motion. */
+/* scroll cue below the contact pill: thin chevron, slow bounce, mauve at low opacity */
 .scroll-cue {
   width: 22px;
   height: 22px;
@@ -250,26 +248,6 @@ nav .name {
 
   50% {
     transform: translateY(8px);
-  }
-}
-
-@supports (animation-timeline: scroll()) {
-  .scroll-cue {
-    animation:
-      scroll-cue-bounce 1.8s ease-in-out infinite,
-      scroll-cue-fade linear both;
-    animation-timeline: auto, scroll(root block);
-    animation-range: normal, 0 100px;
-  }
-}
-
-@keyframes scroll-cue-fade {
-  from {
-    opacity: 0.7;
-  }
-
-  to {
-    opacity: 0;
   }
 }
 

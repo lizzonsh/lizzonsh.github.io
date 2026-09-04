@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
 
 body {
   font-family: "Schibsted Grotesk", sans-serif;
@@ -11,4 +12,46 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700; /* Headings will automatically use the bold version */
 }
 
+/* navigation bar styling */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  background: #f1f1f1;
+  border-bottom: 1px solid #ccc;
+}
 
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+/* everything under a tag in nav will be styled with this */
+nav a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* makes the name stand out from the rest of the nav links */
+.nav-name {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+/* adds an underline when mouse hovers over the link */
+nav a:hover {
+  text-decoration: underline;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

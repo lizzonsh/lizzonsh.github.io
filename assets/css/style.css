@@ -445,15 +445,23 @@ nav .name {
   nav {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
-    margin: 12px;
-    padding: 14px 20px;
+    gap: 8px;
+    margin: 10px;
+    padding: 8px 16px;
+  }
+
+  nav .name {
+    font-size: 1.4rem;
   }
 
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 14px;
+    gap: 10px;
+  }
+
+  nav a {
+    font-size: 0.95rem;
   }
 
   .hero {

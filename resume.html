@@ -9,78 +9,81 @@
 </head>
 <body>
     <nav>
-        <a href="index.html" class="nav-name">Elizabeth Zonshtein</a>
+        <a href="index.html" class="name">Elizabeth Zonshtein</a>
         <div class="nav-links">
             <a href="resume.html">Resume</a>
             <a href="projects.html">Projects</a>
             <a href="analog.html">Analog Film</a>
+            <label class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
+                <input type="checkbox" id="theme-toggle">
+                <span class="theme-toggle-track"></span>
+            </label>
         </div>
     </nav>
-    <h1 class="schibsted-bold">Elizabeth Zonshtein - DevOps Engineer</h1>
-    <p class="schibsted-normal">Tel Aviv, Israel | +972540000000 | lizaczon@gmail.com</p>
-    <p class="schibsted-normal"><a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank">Linkedin: Elizabeth Zonshtein</a></p>
+    <div class="page-header">
+        <h1 class="schibsted-bold"><span class="name">Elizabeth Zonshtein</span> - DevOps Engineer</h1>
+        <p class="schibsted-normal">Tel Aviv, Israel | +972540000000 | lizaczon@gmail.com</p>
+        <p class="schibsted-normal"><a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank">Linkedin: Elizabeth Zonshtein</a></p>
+        <a href="assets/docs/Elizabeth-Zonshtein-Resume.pdf" class="button-link" target="_blank">Download Resume</a>
+    </div>
 
-    <a href="assets/docs/Elizabeth-Zonshtein-Resume.pdf" class="button-link" target="_blank">Download Resume</a>
+    <div class="card-grid">
+        <div class="card">
+            <h2>Education</h2>
 
-    <h2>Education</h2>
+            <div class="entry">
+                <h3>Bachelor's Degree in Computer Science</h3>
+                <p>The College of Management Academic Studies</p>
+                <p>Oct 2024 - June 2027</p>
+            </div>
 
-    <h3>Bachelor's Degree in Computer Science</h3>
-    <p>The College of Management Academic Studies</p>
-    <p>Oct 2024 - June 2027</p>
+            <div class="entry">
+                <h3>IDF Officer's Course</h3>
+                <p>Bahad 1 - School for Officers</p>
+                <p>Aug 2023 - Dec 2023</p>
+            </div>
 
-    <h3>IDF Officer's Course</h3>
-    <p>Bahad 1 - School for Officers</p>
-    <p>Aug 2023 - Dec 2023</p>
+            <div class="entry">
+                <h3>DevOps Engineer Course</h3>
+                <p>Basmach - IDF School of Computer Science</p>
+                <p>Mar 2022 - Jul 2022</p>
+            </div>
+        </div>
 
-    <h3>DevOps Engineer Course</h3>
-    <p>Basmach - IDF School of Computer Science</p>
-    <p>Mar 2022 - Jul 2022</p>
+        <div class="card">
+            <h2>Experience</h2>
 
-    <h2>Experience</h2>
+            <div class="entry">
+                <h3>DevOps Team Lead | Israeli Defense Force</h3>
+                <p>Jul 2024 - May 2026</p>
+                <ul>
+                    <li>Managed an 8-member DevOps team, orchestrating strategic roadmaps, project timelines, and execution within an Agile Scrum framework.</li>
+                    <li>Responsible for designing, implementing and maintaing, Continuous Integration (CI), Delivery and Deployment (CD) Processes across Cloud and On-Premise environments.</li>
+                    <li>Cultivated a proactive DevSecOps culture by integrating SonarQube and JFrog Xray into active workflows, successfully driving "Shift-Left" adoption across engineering teams.</li>
+                    <li>Standardized and maintained a full-scale monitoring and logging ecosystem, leveraging Prometheus to capture system and application metrics, Grafana Loki for log aggregation, and Grafana Mimir for long-term retention—all visualized via centralized Grafana dashboards.</li>
+                    <li>Implemented ticketing service (ServiceNow) due to the team providing DevOps services to 500+ developers, cyber and IT personnel.</li>
+                </ul>
+            </div>
 
-    <h3>DevOps Team Lead | Israeli Defense Force</h3>
-    <p>Jul 2024 - May 2026</p>
-    <ul>
-        <li>Managed an 8-member DevOps team, orchestrating strategic roadmaps, project timelines, and execution within an Agile Scrum framework.</li>
-        <li>Responsible for designing, implementing and maintaing, Continuous Integration (CI), Delivery and Deployment (CD) Processes across Cloud and On-Premise environments.</li>
-        <li>Cultivated a proactive DevSecOps culture by integrating SonarQube and JFrog Xray into active workflows, successfully driving "Shift-Left" adoption across engineering teams.</li>
-        <li>Standardized and maintained a full-scale monitoring and logging ecosystem, leveraging Prometheus to capture system and application metrics, Grafana Loki for log aggregation, and Grafana Mimir for long-term retention—all visualized via centralized Grafana dashboards.</li>
-        <li>Implemented ticketing service (ServiceNow) due to the team providing DevOps services to 500+ developers, cyber and IT personnel.</li>
-    </ul>
+            <div class="entry">
+                <h3>DevOps Engineer | Israeli Defense Force</h3>
+                <p>Aug 2022 - Jul 2024</p>
+                <ul>
+                    <li>Designed and built CI/CD pipelines across different environments and architectures, ranging from Windows/Linux monoliths to Kubernetes microservices.</li>
+                    <li>Developed automation solutions using Python, PowerShell, and Bash to improve internal processes and operational efficiency.</li>
+                    <li>Easy to work with and collaborative, contributing to building reliable and scalable solutions.</li>
+                    <li>Implemented Infrastructure as Code (IaC) solutions using Terraform and Ansible to provision and manage scalable environments.</li>
+                    <li>Maintained DevOps platforms while implementing Disaster Recovery (DR), High Availability (HA), and BCP methodologies for Azure DevOps Server, Artifactory, SonarQube, AWX, and HashiCorp Vault.</li>
+                    <li>Strong troubleshooting skills with the ability to identify root causes and optimize system performance efficiently.</li>
+                </ul>
+            </div>
+        </div>
 
-    <h3>DevOps Engineer | Israeli Defense Force</h3>
-    <p>Aug 2022 - Jul 2024</p>
-    <ul>
-        <li>Designed and built CI/CD pipelines across different environments and architectures, ranging from Windows/Linux monoliths to Kubernetes microservices.</li>
-        <li>Developed automation solutions using Python, PowerShell, and Bash to improve internal processes and operational efficiency.</li>
-        <li>Easy to work with and collaborative, contributing to building reliable and scalable solutions.</li>
-        <li>Implemented Infrastructure as Code (IaC) solutions using Terraform and Ansible to provision and manage scalable environments.</li>
-        <li>Maintained DevOps platforms while implementing Disaster Recovery (DR), High Availability (HA), and BCP methodologies for Azure DevOps Server, Artifactory, SonarQube, AWX, and HashiCorp Vault.</li>
-        <li>Strong troubleshooting skills with the ability to identify root causes and optimize system performance efficiently.</li>
-    </ul>
-
-    <h2>Projects</h2>
-
-    <h3>Network Communication Simulation Platform</h3>
-    <ul>
-        <li>Created an automatic and dynamic environment on Openshift that simulates communication between VMs in order to test the communication protocol between them.</li>
-        <li>Utilized: Ansible, Infrastructure as a code, Kubevirt, Openshift, Kubernetes, Jinja2, Windows VMs.</li>
-    </ul>
-
-    <h3>AWS ETL Deployment</h3>
-    <ul>
-        <li>Spearheaded the full CI/CD automation of a serverless data ingestion pipeline, leveraging AWS CDK and Lambda to safely bridge external API data into an air-gapped ecosystem.</li>
-        <li>Utilized: GitOps, GitHub Actions, AWS CDK - Python, Lambda, AWS S3, Custom Resources, VPC, Subnets.</li>
-    </ul>
-
-    <h3>Algorithm Performance Optimization & Migration</h3>
-    <ul>
-        <li>Led the migration of algorithm workloads from physical Windows environments to OpenShift, improving runtime performance and enabling automated deployments with Helm and ArgoCD.</li>
-        <li>Utilized: Helm, ArgoCD, Python, AzureDevOps Pipelines, Docker.</li>
-    </ul>
-
-    <h2>Skills</h2>
-    <p>Team Leadership, Teamwork, Mentoring, Technical Documentation, Blameless Post-Mortems.</p>
+        <div class="card">
+            <h2>Skills</h2>
+            <p>Team Leadership, Teamwork, Mentoring, Technical Documentation, Blameless Post-Mortems.</p>
+        </div>
+    </div>
 
 </body>
 </html>

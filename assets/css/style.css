@@ -1,57 +1,291 @@
 @import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
 
+/* color palette: light by default, dark when the toggle in the nav is checked */
+:root {
+  --bg:        #F1EFEE;
+  --surface:   #E7E2E0;
+  --sunken:    #DAD2CF;
+  --border:    #C6BBB5;
+  --text:      #241C1A;
+  --text-mute: #6A5C57;
+  --accent:    #7A3B44;
+  --accent-hi: #A8646C;
+  --spark:     #8F5411;
+}
+
+/* pure-CSS theme switch: no JS, so the checked state of #theme-toggle drives the dark palette directly */
+body:has(#theme-toggle:checked) {
+  --bg:        #0D0B08;
+  --surface:   #1C1611;
+  --sunken:    #231C09;
+  --border:    #3A2C26;
+  --text:      #F2DED4;
+  --text-mute: #C9A49B;
+  --accent:    #C9822F;
+  --accent-hi: #E7B8A6;
+  --spark:     #B48A82;
+}
+
 body {
   font-family: "Schibsted Grotesk", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400; /* Sets the default weight for regular text */
   font-style: normal;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-mute);
 }
+a {
+  color: var(--accent);
+  transition: transform 0.2s ease;
+}
+
+a:hover {
+  transform: translateY(-2px);
+}
+
 /* bold for heading */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700; /* Headings will automatically use the bold version */
+  color: var(--text);
 }
 
-/* navigation bar styling */
+/* navigation bar styling: floating pill, detached from the viewport edges */
 nav {
   position: sticky;
-  top: 0;
+  top: 20px;
   z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 30px;
-  background: #f1f1f1;
-  border-bottom: 1px solid #ccc;
+  margin: 20px 30px;
+  padding: 18px 30px;
+  background: var(--sunken);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 25px;
+}
+
+/* light/dark switch, pure CSS: checkbox is visually hidden, label is the visible track */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 48px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.theme-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.theme-toggle-track::after {
+  content: "\2600";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#theme-toggle:checked ~ .theme-toggle-track::after {
+  content: "\1F319";
+  transform: translateX(22px);
+  background: var(--accent-hi);
 }
 
 /* everything under a tag in nav will be styled with this */
 nav a {
-  color: #333;
+  color: var(--text);
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
 }
 
-/* makes the name stand out from the rest of the nav links */
-.nav-name {
+/* makes the name stand out wherever it appears on the page: highlight accent */
+.name {
   font-family: "Instrument Serif", serif;
-  font-size: 1.6rem;
   font-weight: 400;
+  color: var(--accent-hi);
 }
 
-/* adds an underline when mouse hovers over the link */
-nav a:hover {
-  text-decoration: underline;
+/* bigger, bolder version of the name specifically in the nav bar */
+nav .name {
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.hero {
+  gap: 40px;
+  padding: 60px 20px;
+}
+
+.hero-photo {
+  width: 420px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.hero-text {
+  max-width: 500px;
+}
+
+.hero-text h1 {
+  font-size: 2.6rem;
+}
+
+.hero-text p {
+  font-size: 1.15rem;
+}
+
+.button-group {
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.button-link {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: var(--bg);
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.button-link:hover {
+  transform: translateY(-4px);
+}
+
+/* single pill holding all contact icon + info items in one line, index.html hero only */
+.contact-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 20px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.contact-bar a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-mute);
+  text-decoration: none;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transition: transform 0.2s ease;
+}
+
+.contact-bar a:hover {
+  transform: translateY(-2px);
+}
+
+.contact-bar svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* shared header block for resume/projects pages */
+.page-header {
+  padding: 50px 40px 10px;
+}
+
+.page-header p {
+  margin: 4px 0;
+  color: var(--text-mute);
+}
+
+.page-header .button-link {
+  margin-top: 16px;
+}
+
+/* grid of section/project cards on resume.html and projects.html */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 30px 40px 60px;
+  align-items: start;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card h3 {
+  margin-bottom: 4px;
+}
+
+.card p {
+  margin: 2px 0 10px;
+  color: var(--text-mute);
+  font-size: 0.95rem;
+}
+
+.card ul {
+  margin: 4px 0 16px;
+  padding-left: 20px;
+}
+
+.card li {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+/* separates stacked entries within a section card (e.g. multiple jobs under Experience) */
+.entry + .entry {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
 }

@@ -4,25 +4,57 @@
     <meta charset="UTF-8">
     <!-- responsive meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elizabeth's Portfolio</title>
+    <title>Elizabeth Zonshtein</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <nav>
-        <a href="index.html" class="nav-name">Elizabeth Zonshtein</a>
+        <a href="index.html" class="name">Elizabeth Zonshtein</a>
         <div class="nav-links">
             <a href="resume.html">Resume</a>
             <a href="projects.html">Projects</a>
             <a href="analog.html">Analog Film</a>
+            <label class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
+                <input type="checkbox" id="theme-toggle">
+                <span class="theme-toggle-track"></span>
+            </label>
         </div>
     </nav>
-    <h1 class="center">Elizabeth's Portfolio</h1>
-    <p class="center">Full time DevOps Engineer with 4 years of experience in cloud infrastructure, automation, and team leadership.
-        big lover of analog film.
-        Open for inquiries and collaborations. Please feel free to reach out via email or LinkedIn.
-    </p>
+    <div class="hero center">
+        <img src="assets/images/IMG_0075.JPEG" alt="Elizabeth Zonshtein" class="hero-photo">
+        <div class="hero-text">
+            <h1 class="name">Elizabeth Zonshtein</h1>
+            <p>Full time DevOps Engineer with 4 years of experience in cloud infrastructure, automation, and team leadership.
+                big lover of analog film.
+                Open for inquiries and collaborations. Please feel free to reach out via email or LinkedIn.
+            </p>
+            <div class="contact-bar">
+                <a href="mailto:lizaczon@gmail.com" aria-label="Email" title="Email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span>lizaczon@gmail.com</span>
+                </a>
+                <a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+                    </svg>
+                    <span>elizabeth-zonshtein</span>
+                </a>
+                <a href="tel:+972540000000" aria-label="Phone" title="Phone">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span>+972 54 000 0000</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="button-group center">
         <a href="resume.html" class="button-link">View Resume</a>
         <a href="projects.html" class="button-link">View Projects</a>
-        <a href="analog.html" class="button-link">View Analog Film Experience</a>       
+        <a href="analog.html" class="button-link">View Analog Film Experience</a>
+    </div>
 </body>
 </html>

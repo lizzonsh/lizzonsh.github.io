@@ -21,7 +21,7 @@ body:has(#theme-toggle:checked) {
   --border:    #3A2C26;
   --text:      #F2DED4;
   --text-mute: #C9A49B;
-  --accent:    #A96A25;
+  --accent:    #C17B87;
   --accent-hi: #E7B8A6;
   --spark:     #B48A82;
 }
@@ -153,15 +153,31 @@ nav .name {
 
 .hero {
   gap: 40px;
-  padding: 60px 20px;
+  padding: 30px 20px;
+  min-height: calc(100vh - 280px);
+  align-items: center;
+}
+
+.hero-photo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .hero-photo {
-  width: 420px;
-  height: 280px;
+  width: 440px;
+  height: 330px;
   object-fit: cover;
   border-radius: 12px;
-  flex-shrink: 0;
+}
+
+.photo-caption {
+  margin: 0;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  color: var(--accent-hi);
 }
 
 .hero-text {
@@ -169,17 +185,95 @@ nav .name {
 }
 
 .hero-text h1 {
-  font-size: 2.6rem;
+  margin-top: 0;
+  font-size: 3rem;
 }
 
 .hero-text p {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
 }
 
-.button-group {
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
+/* teaser sections on index.html: alternating photo/text, linking out to the full page */
+.feature {
+  min-height: 100vh;
+  padding: 60px 40px;
+  display: flex;
+  align-items: center;
+}
+
+.feature-alt {
+  background: var(--surface);
+}
+
+.feature-inner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.feature-inner.reverse {
+  flex-direction: row-reverse;
+}
+
+.feature-photo {
+  width: 420px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* shows the photo at its own natural size instead of the fixed cropped box */
+.feature-photo-natural {
+  width: auto;
+  height: auto;
+  max-width: 420px;
+}
+
+/* coffee-shop photo is landscape, so the same width cap as a portrait shot
+   (taking-film-photo) renders much shorter; give it a wider cap so the two
+   read as closer in size, paired with .feature-inner-wide for room to grow */
+.feature-photo-natural-wide {
+  max-width: 600px;
+}
+
+.feature-inner-wide {
+  max-width: 1050px;
+}
+
+/* CSS-only scroll-driven animation: photo grows as its section scrolls into
+   view and shrinks again as it scrolls out. No JS needed; browsers without
+   support for animation-timeline just show the photo at full size. */
+@keyframes feature-photo-scale {
+  0%, 100% {
+    transform: scale(0.75);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .feature-photo {
+    animation: feature-photo-scale linear;
+    animation-timeline: view();
+  }
+}
+
+.feature-text {
+  flex: 1;
+}
+
+.feature-text h2 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.feature-text p {
+  color: var(--text-mute);
+  margin: 0 0 20px;
 }
 
 .button-link {
@@ -236,7 +330,7 @@ nav .name {
 
 /* shared header block for resume/projects pages */
 .page-header {
-  padding: 50px 40px 10px;
+  padding: 30px 40px 0;
 }
 
 .page-header p {
@@ -245,7 +339,7 @@ nav .name {
 }
 
 .page-header .button-link {
-  margin-top: 16px;
+  margin-top: 24px;
 }
 
 /* grid of section cards on resume.html */
@@ -253,7 +347,7 @@ nav .name {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
-  padding: 30px 40px 60px;
+  padding: 24px 40px 60px;
   align-items: start;
 }
 

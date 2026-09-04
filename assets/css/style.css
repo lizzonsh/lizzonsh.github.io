@@ -439,3 +439,83 @@ nav .name {
   padding-top: 20px;
   border-top: 1px solid var(--border);
 }
+
+/* phone/small-tablet layout: stack everything that's a fixed-width row on desktop */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 12px;
+    padding: 14px 20px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .hero {
+    flex-direction: column;
+    min-height: auto;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .contact-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 20px;
+  }
+
+  .feature {
+    min-height: auto;
+    padding: 40px 20px;
+  }
+
+  .feature-inner,
+  .feature-inner.reverse {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .feature-text {
+    text-align: center;
+  }
+
+  .hero-photo,
+  .feature-photo,
+  .feature-photo-natural,
+  .feature-photo-natural-wide {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .page-header {
+    padding: 20px 20px 0;
+  }
+
+  .card-grid {
+    padding: 20px 20px 40px;
+  }
+
+  .entry-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .entry-date {
+    text-align: left;
+  }
+}

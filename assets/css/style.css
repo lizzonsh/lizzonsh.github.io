@@ -14,6 +14,16 @@
   --spark:     #8F5411;
 }
 
+body {
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Sets the default weight for regular text */
+  font-style: normal;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-mute);
+}
+
 body:has(#theme-toggle:checked) {
   --bg:        #0D0B08;
   --surface:   #1C1611;
@@ -26,18 +36,17 @@ body:has(#theme-toggle:checked) {
   --spark:     #B48A82;
 }
 
-body {
-  font-family: "Schibsted Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400; /* Sets the default weight for regular text */
-  font-style: normal;
-  margin: 0;
-  background: var(--bg);
-  color: var(--text-mute);
-}
 a {
   color: var(--accent);
   transition: transform 0.2s ease;
+}
+
+/* everything under a tag in nav will be styled with this */
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 a:hover {
@@ -63,7 +72,7 @@ nav {
   background: var(--sunken);
   border: 1px solid var(--border);
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
 }
 
 .nav-links {
@@ -118,14 +127,6 @@ nav {
   content: "\1F319";
   transform: translateX(22px);
   background: var(--accent-hi);
-}
-
-/* everything under a tag in nav will be styled with this */
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
 }
 
 /* makes the name stand out wherever it appears on the page: highlight accent */
@@ -250,6 +251,7 @@ nav .name {
   0%, 100% {
     transform: scale(0.75);
   }
+
   50% {
     transform: scale(1);
   }
@@ -361,7 +363,7 @@ nav .name {
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 28px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
 }
 
 /* CSS-only scroll-driven reveal: fades/slides each card in as it scrolls into
@@ -373,6 +375,7 @@ nav .name {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -410,14 +413,14 @@ nav .name {
   gap: 16px;
 }
 
-.entry-row .entry-org,
-.entry-row .entry-date {
-  margin: 0;
-}
-
 .entry-date {
   white-space: nowrap;
   text-align: right;
+}
+
+.entry-row .entry-org,
+.entry-row .entry-date {
+  margin: 0;
 }
 
 .card ul {

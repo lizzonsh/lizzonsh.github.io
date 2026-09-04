@@ -14,7 +14,6 @@
   --spark:     #8F5411;
 }
 
-/* pure-CSS theme switch: no JS, so the checked state of #theme-toggle drives the dark palette directly */
 body:has(#theme-toggle:checked) {
   --bg:        #0D0B08;
   --surface:   #1C1611;
@@ -22,7 +21,7 @@ body:has(#theme-toggle:checked) {
   --border:    #3A2C26;
   --text:      #F2DED4;
   --text-mute: #C9A49B;
-  --accent:    #C9822F;
+  --accent:    #A96A25;
   --accent-hi: #E7B8A6;
   --spark:     #B48A82;
 }
@@ -73,7 +72,7 @@ nav {
   gap: 25px;
 }
 
-/* light/dark switch, pure CSS: checkbox is visually hidden, label is the visible track */
+/* light/dark switch */
 .theme-toggle {
   position: relative;
   display: inline-flex;
@@ -136,6 +135,10 @@ nav a {
   color: var(--accent-hi);
 }
 
+.page-header .title {
+  color: var(--accent-hi);
+}
+
 /* bigger, bolder version of the name specifically in the nav bar */
 nav .name {
   font-size: 1.8rem;
@@ -181,9 +184,10 @@ nav .name {
 
 .button-link {
   display: inline-block;
+  box-sizing: border-box;
   padding: 12px 24px;
   background: var(--accent);
-  color: var(--bg);
+  color: #F5EBE3; /* fixed light label: the accent fill is a dark-ish tone in both themes, so text stays light rather than flipping with --bg */
   text-decoration: none;
   border-radius: 10px;
   font-weight: 600;
@@ -216,11 +220,12 @@ nav .name {
   text-decoration: none;
   font-size: 0.75rem;
   white-space: nowrap;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .contact-bar a:hover {
   transform: translateY(-2px);
+  color: var(--accent);
 }
 
 .contact-bar svg {
@@ -243,7 +248,7 @@ nav .name {
   margin-top: 16px;
 }
 
-/* grid of section/project cards on resume.html and projects.html */
+/* grid of section cards on resume.html */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -252,15 +257,22 @@ nav .name {
   align-items: start;
 }
 
+/* stack cards in a single column, e.g. resume.html */
+.card-grid.stacked {
+  grid-template-columns: 1fr;
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 28px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
 .card h2 {
   margin-top: 0;
+  color: var(--accent);
 }
 
 .card h3 {
@@ -271,6 +283,24 @@ nav .name {
   margin: 2px 0 10px;
   color: var(--text-mute);
   font-size: 0.95rem;
+}
+
+/* title/org on the left, date range right-aligned */
+.entry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.entry-row .entry-org,
+.entry-row .entry-date {
+  margin: 0;
+}
+
+.entry-date {
+  white-space: nowrap;
+  text-align: right;
 }
 
 .card ul {

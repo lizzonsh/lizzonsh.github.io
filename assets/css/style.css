@@ -1,5 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+
+/* hidden <symbol> defs referenced via <use> elsewhere on the page */
+.icon-sprite {
+  display: none;
+}
 
 /* color palette: light by default, dark when the toggle in the nav is checked */
 :root {
@@ -43,6 +47,7 @@ a {
 
 /* everything under a tag in nav will be styled with this */
 nav a {
+  display: inline-block;
   color: var(--text);
   text-decoration: none;
   font-weight: 600;
@@ -51,6 +56,12 @@ nav a {
 
 a:hover {
   transform: translateY(-2px);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* bold for heading */
@@ -106,6 +117,11 @@ nav {
   transition: background 0.2s ease;
 }
 
+#theme-toggle:focus-visible ~ .theme-toggle-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .theme-toggle-track::after {
   content: "\2600";
   position: absolute;
@@ -136,7 +152,9 @@ nav {
   color: var(--accent-hi);
 }
 
-.page-header .title {
+.title {
+  font-family: "Instrument Serif", serif;
+  font-weight: 700;
   color: var(--accent-hi);
 }
 
@@ -185,9 +203,19 @@ nav .name {
   max-width: 500px;
 }
 
+.hero-text .contact-bar {
+  margin-top: 40px;
+}
+
 .hero-text h1 {
   margin-top: 0;
+  margin-bottom: 0;
   font-size: 3rem;
+}
+
+.hero-text .title {
+  margin-top: 4px;
+  font-size: 1.3rem;
 }
 
 .hero-text p {

@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+
+body {
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Sets the default weight for regular text */
+  font-style: normal;
+}
+/* bold for heading */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700; /* Headings will automatically use the bold version */
+}
+
+

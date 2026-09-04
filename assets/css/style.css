@@ -210,7 +210,6 @@ nav .name {
 }
 
 .hero {
-  scroll-snap-align: start;
   gap: 40px;
   padding: 30px 20px;
   min-height: calc(100vh - 280px);

@@ -5,8 +5,41 @@
   display: none;
 }
 
+/* same scrollbar look on every page, not just index.html */
 html {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--accent-hi) var(--sunken); /* Firefox: thumb, track */
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--sunken);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--accent-hi);
+  border-radius: 999px;
+  border: 2px solid var(--sunken);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* index.html (body.snap-page) snaps its sections as you scroll; other pages
+   (resume/analog/upcoming) just use plain document scrolling. Both share one
+   scroll frame (the document) with nav as a normal sticky element in it —
+   deliberately not a separate scrolling element, since nav (position:sticky)
+   and the content it sits above only ever stay in sync if they're on the
+   same scroll timeline. A nested overflow:auto container for main scrolled
+   independently of nav and could drift out of sync with it under momentum/
+   snap-settling scroll, letting nav visually slice through the hero heading. */
+html:has(body.snap-page) {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 /* color palette: light by default, dark when the toggle in the nav is checked */
@@ -177,6 +210,7 @@ nav .name {
 }
 
 .hero {
+  scroll-snap-align: start;
   gap: 40px;
   padding: 30px 20px;
   min-height: calc(100vh - 280px);
@@ -259,8 +293,9 @@ nav .name {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html:has(body.snap-page) {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 
   .scroll-cue {
@@ -270,6 +305,7 @@ nav .name {
 
 /* teaser sections on index.html: alternating photo/text, linking out to the full page */
 .feature {
+  scroll-snap-align: start;
   min-height: 100vh;
   padding: 60px 40px;
   display: flex;
@@ -300,11 +336,15 @@ nav .name {
   flex-shrink: 0;
 }
 
-/* shows the photo at its own natural size instead of the fixed cropped box */
+/* shows the photo at its own natural size instead of the fixed cropped box;
+   max-height keeps a tall portrait shot from growing the whole section past
+   one screen (which pushed content down and hid part of the photo) */
 .feature-photo-natural {
   width: auto;
   height: auto;
   max-width: 420px;
+  max-height: 65vh;
+  object-fit: contain;
 }
 
 /* coffee-shop photo is landscape, so the same width cap as a portrait shot
@@ -605,6 +645,11 @@ nav .name {
     border-radius: 20px;
   }
 
+  .hero-text .contact-bar {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .feature {
     min-height: auto;
     padding: 40px 20px;
@@ -624,9 +669,11 @@ nav .name {
   .feature-photo,
   .feature-photo-natural,
   .feature-photo-natural-wide {
-    width: 100%;
-    max-width: 100%;
+    width: auto;
     height: auto;
+    max-width: 100%;
+    max-height: 38vh;
+    object-fit: contain;
   }
 
   .page-header {

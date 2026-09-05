@@ -61,9 +61,12 @@ html:has(body.snap-page) {
      its own bottom edge: sticky's 20px top offset + nav's rendered box
      height. Re-declared inside each breakpoint below where nav's box height
      actually changes (padding/font-size/tap-target sizing), so every other
-     rule that needs to clear nav (scroll-padding-top, scroll-margin-top,
-     hero's min-height) reads one property instead of hardcoding nav's size
-     redundantly at each tier. */
+     rule that needs to clear nav (scroll-padding-top on html, hero's
+     min-height) reads one property instead of hardcoding nav's size
+     redundantly at each tier. Deliberately NOT paired with scroll-margin-top
+     on the sections too — scroll-padding-top and scroll-margin-top add
+     together when both are set, which doubled the gap under nav instead of
+     matching it. */
   --nav-h: calc(96px + env(safe-area-inset-top));
 }
 
@@ -299,7 +302,6 @@ nav .name {
 
 .hero {
   scroll-snap-align: start; /* safe now that scroll-padding-top on html accounts for nav's height — previously this pulled the initial/snapped scroll position out from under nav entirely */
-  scroll-margin-top: var(--nav-h);
   gap: 40px;
   padding: 30px 20px;
   min-height: calc(100vh - var(--nav-h) - 184px); /* 184px + the default --nav-h (96px) reproduces the original fixed 280px this replaced; only the nav-height portion is now adaptive */
@@ -395,7 +397,6 @@ nav .name {
 /* teaser sections on index.html: alternating photo/text, linking out to the full page */
 .feature {
   scroll-snap-align: start;
-  scroll-margin-top: var(--nav-h);
   min-height: 100vh;
   padding: 60px 40px;
   display: flex;
@@ -538,7 +539,6 @@ nav .name {
 
 /* shared header block for resume/projects pages */
 .page-header {
-  scroll-margin-top: var(--nav-h);
   padding: 30px 40px 0;
 }
 

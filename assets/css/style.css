@@ -9,9 +9,6 @@
 html {
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: var(--accent-hi) var(--sunken); /* Firefox: thumb, track */
-  /* keeps #resume / #analog / #upcoming (and any future in-page anchor) from
-     landing with their heading tucked behind the sticky nav pill */
-  scroll-padding-top: var(--nav-h);
 }
 
 html::-webkit-scrollbar {
@@ -67,7 +64,7 @@ html:has(body.snap-page) {
      on the sections too — scroll-padding-top and scroll-margin-top add
      together when both are set, which doubled the gap under nav instead of
      matching it. */
-  --nav-h: calc(96px + env(safe-area-inset-top));
+  --nav-h: calc(140px + env(safe-area-inset-top)); /* deliberately generous: hand-calculating nav's exact rendered height from font-size/line-height for "Instrument Serif" isn't reliable without a live browser, and undershooting clips the heading behind nav while overshooting only adds a bit of harmless whitespace above it */
 }
 
 body {
@@ -301,10 +298,14 @@ nav .name {
 }
 
 .hero {
-  scroll-snap-align: start; /* safe now that scroll-padding-top on html accounts for nav's height — previously this pulled the initial/snapped scroll position out from under nav entirely */
+  /* deliberately no scroll-snap-align here: hero is already the resting
+     scroll-top-0 view, and snapping it to itself only pulls the scroll away
+     from true 0 (nav sits before it in flow, so "start" alignment wants
+     hero's top flush with the viewport top, which is below where nav's own
+     box ends) — this caused the page to load/settle scrolled slightly down */
   gap: 40px;
   padding: 30px 20px;
-  min-height: calc(100vh - var(--nav-h) - 184px); /* 184px + the default --nav-h (96px) reproduces the original fixed 280px this replaced; only the nav-height portion is now adaptive */
+  min-height: calc(100vh - var(--nav-h) - 140px); /* 140px + the default --nav-h (140px) reproduces the original fixed 280px this replaced; only the nav-height portion is now adaptive */
   align-items: center;
 }
 
@@ -650,14 +651,6 @@ nav .name {
 /* tablet: desktop row layouts stay, but fixed-width photos and nav gaps are
    sized down so nothing forces the page wider than the viewport */
 @media screen and (max-width: 1024px) {
-  :root {
-    /* nav can still wrap to 2 lines in this tier (unchanged, pre-existing
-       behavior) since the hamburger only kicks in at 768px below — this is
-       a generous estimate covering that 2-line case rather than an exact
-       measurement, since the exact height varies with how the wrap breaks */
-    --nav-h: calc(150px + env(safe-area-inset-top));
-  }
-
   nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -691,7 +684,7 @@ nav .name {
        margin + ~44px content (the hamburger button sets the floor at the
        44px tap-target minimum, taller than the toggle or the name text) +
        ~14px padding/border */
-    --nav-h: calc(70px + env(safe-area-inset-top));
+    --nav-h: calc(80px + env(safe-area-inset-top));
   }
 
   nav {

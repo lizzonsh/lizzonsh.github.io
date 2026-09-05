@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <svg style="display:none">
+    <svg class="icon-sprite">
         <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
@@ -27,24 +27,30 @@
     </svg>
     <nav>
         <a href="index.html" class="name">Elizabeth Zonshtein</a>
-        <div class="nav-links">
-            <a href="resume.html">Resume</a>
-            <a href="analog.html">Analog Film</a>
-            <a href="up-comming-projects.html">Upcoming Projects</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="resume.html">Resume</a>
+                <a href="analog.html">Analog Film</a>
+                <a href="upcoming-projects.html">Upcoming Projects</a>
+            </div>
             <label class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
                 <input type="checkbox" id="theme-toggle">
                 <span class="theme-toggle-track"></span>
             </label>
+            <label class="nav-toggle-btn" aria-label="Toggle navigation menu" title="Toggle navigation menu">
+                <input type="checkbox" id="nav-toggle" class="visually-hidden">
+                <span class="hamburger-icon" aria-hidden="true"></span>
+            </label>
         </div>
     </nav>
-    <div class="page-header">
+    <header class="page-header">
         <h1 class="schibsted-bold"><span class="name">Elizabeth Zonshtein</span> <span class="title">DevOps Engineer</span></h1>
         <div class="contact-bar">
             <a href="mailto:lizaczon@gmail.com" aria-label="Email" title="Email">
                 <svg><use href="#icon-mail"></use></svg>
                 <span>lizaczon@gmail.com</span>
             </a>
-            <a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+            <a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
                 <svg><use href="#icon-linkedin"></use></svg>
                 <span>elizabeth-zonshtein</span>
             </a>
@@ -52,16 +58,16 @@
                 <svg><use href="#icon-phone"></use></svg>
                 <span>+972&nbsp;54&nbsp;000&nbsp;0000</span>
             </a>
-            <a href="https://github.com/lizzonsh" target="_blank" aria-label="GitHub" title="GitHub">
+            <a href="https://github.com/lizzonsh" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
                 <svg><use href="#icon-github"></use></svg>
                 <span>lizzonsh</span>
             </a>
         </div>
         <a href="assets/docs/Elizabeth-Zonshtein-Resume.pdf" class="button-link" target="_blank">Download Resume</a>
-    </div>
+    </header>
 
-    <div class="card-grid stacked">
-        <div class="card">
+    <main class="card-grid stacked">
+        <section class="card">
             <h2>Education</h2>
             <div class="entry">
                 <div class="entry-row">
@@ -92,9 +98,9 @@
                     <p class="entry-date">Mar 2022 - Jul 2022</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="card">
+        <section class="card">
             <h2>Experience</h2>
 
             <div class="entry">
@@ -126,9 +132,9 @@
                     <li>Maintained DR/HA/BCP for core DevOps platforms (Azure DevOps Server, Artifactory, SonarQube, AWX, HashiCorp Vault) with strong root-cause troubleshooting.</li>
                 </ul>
             </div>
-        </div>
+        </section>
 
-        <div class="card">
+        <section class="card">
             <h2>Projects</h2>
 
             <div class="entry">
@@ -154,9 +160,9 @@
                 </ul>
                 <p class="entry-org">Utilized: Helm, ArgoCD, Python, Azure DevOps Pipelines, Docker.</p>
             </div>
-        </div>
+        </section>
 
-        <div class="card">
+        <section class="card">
             <h2>Skills</h2>
 
             <div class="entry">
@@ -168,8 +174,7 @@
                 <h3>Technical Skills</h3>
                 <p>CI/CD, Infrastructure as Code (IaC), DevSecOps, SonarQube, JFrog Xray, Prometheus, Grafana, Grafana Loki, Grafana Mimir, Kubernetes, Windows, Linux, Python, PowerShell, Bash, Terraform, Ansible, Openshift, Kubevirt, Jinja2, Windows VMs, GitOps, GitHub Actions, AWS CDK, AWS Lambda, AWS S3, Custom Resources, VPC, Subnets, Helm, ArgoCD, Azure DevOps Pipelines, Docker</p>
             </div>
-        </div>
-    </div>
-
+        </section>
+    </main>
 </body>
 </html>

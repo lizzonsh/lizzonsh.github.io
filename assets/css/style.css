@@ -1,5 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+
+/* hidden <symbol> defs referenced via <use> elsewhere on the page */
+.icon-sprite {
+  display: none;
+}
+
+/* same scrollbar look on every page, not just index.html */
+html {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--accent-hi) var(--sunken); /* Firefox: thumb, track */
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--sunken);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--accent-hi);
+  border-radius: 999px;
+  border: 2px solid var(--sunken);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* index.html (body.snap-page) snaps its sections as you scroll; other pages
+   (resume/analog/upcoming) just use plain document scrolling. Both share one
+   scroll frame (the document) with nav as a normal sticky element in it —
+   deliberately not a separate scrolling element, since nav (position:sticky)
+   and the content it sits above only ever stay in sync if they're on the
+   same scroll timeline. A nested overflow:auto container for main scrolled
+   independently of nav and could drift out of sync with it under momentum/
+   snap-settling scroll, letting nav visually slice through the hero heading. */
+html:has(body.snap-page) {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
 
 /* color palette: light by default, dark when the toggle in the nav is checked */
 :root {
@@ -12,6 +53,18 @@
   --accent:    #7A3B44;
   --accent-hi: #A8646C;
   --spark:     #8F5411;
+
+  /* total space nav occupies from the real (safe-area-aware) viewport top to
+     its own bottom edge: sticky's 20px top offset + nav's rendered box
+     height. Re-declared inside each breakpoint below where nav's box height
+     actually changes (padding/font-size/tap-target sizing), so every other
+     rule that needs to clear nav (scroll-padding-top on html, hero's
+     min-height) reads one property instead of hardcoding nav's size
+     redundantly at each tier. Deliberately NOT paired with scroll-margin-top
+     on the sections too — scroll-padding-top and scroll-margin-top add
+     together when both are set, which doubled the gap under nav instead of
+     matching it. */
+  --nav-h: calc(140px + env(safe-area-inset-top)); /* deliberately generous: hand-calculating nav's exact rendered height from font-size/line-height for "Instrument Serif" isn't reliable without a live browser, and undershooting clips the heading behind nav while overshooting only adds a bit of harmless whitespace above it */
 }
 
 body {
@@ -43,6 +96,7 @@ a {
 
 /* everything under a tag in nav will be styled with this */
 nav a {
+  display: inline-block;
   color: var(--text);
   text-decoration: none;
   font-weight: 600;
@@ -51,6 +105,12 @@ nav a {
 
 a:hover {
   transform: translateY(-2px);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* bold for heading */
@@ -62,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
 /* navigation bar styling: floating pill, detached from the viewport edges */
 nav {
   position: sticky;
-  top: 20px;
+  top: calc(20px + env(safe-area-inset-top)); /* clears the notch/status bar on full-bleed iOS installs; env() is 0 elsewhere, so this is a no-op on desktop */
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -75,10 +135,86 @@ nav {
   box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
 }
 
+/* groups the links + theme toggle + hamburger as nav's single second flex
+   child, so justify-content:space-between still only ever balances two
+   things (name / everything-else) regardless of how many controls are
+   inside — adding the hamburger couldn't otherwise change desktop's spacing */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
   gap: 25px;
+}
+
+/* hidden checkbox driving the mobile nav-links dropdown (checkbox hack, same
+   pattern as #theme-toggle below). Kept in the accessibility tree and tab
+   order via .visually-hidden rather than display:none — a checkbox's native
+   checked/unchecked state is announced by screen readers on its own, which
+   is honest, JS-free signal for "menu open/closed". What CSS genuinely can't
+   do here: keep aria-expanded in sync, close on Escape, or trap focus in the
+   open panel — those need JS, which this project deliberately doesn't have. */
+.nav-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#nav-toggle:focus-visible ~ .hamburger-icon {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.hamburger-icon {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.hamburger-icon::before {
+  top: -7px;
+}
+
+.hamburger-icon::after {
+  top: 7px;
+}
+
+/* visible-to-screen-readers-only utility: hides content visually without
+   removing it from the accessibility tree or tab order (unlike display:none
+   or visibility:hidden), so the hidden #nav-toggle checkbox stays reachable
+   and its state stays announced */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* light/dark switch */
@@ -106,6 +242,11 @@ nav {
   transition: background 0.2s ease;
 }
 
+#theme-toggle:focus-visible ~ .theme-toggle-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .theme-toggle-track::after {
   content: "\2600";
   position: absolute;
@@ -117,6 +258,7 @@ nav {
   align-items: center;
   justify-content: center;
   font-size: 12px;
+  font-variant-emoji: text;
   border-radius: 50%;
   background: var(--accent);
   color: var(--bg);
@@ -136,12 +278,15 @@ nav {
   color: var(--accent-hi);
 }
 
-.page-header .title {
+.title {
+  font-family: "Instrument Serif", serif;
+  font-weight: 700;
   color: var(--accent-hi);
 }
 
 /* bigger, bolder version of the name specifically in the nav bar */
 nav .name {
+  color: var(--accent-hi);
   font-size: 1.8rem;
   font-weight: 700;
 }
@@ -153,9 +298,14 @@ nav .name {
 }
 
 .hero {
+  /* deliberately no scroll-snap-align here: hero is already the resting
+     scroll-top-0 view, and snapping it to itself only pulls the scroll away
+     from true 0 (nav sits before it in flow, so "start" alignment wants
+     hero's top flush with the viewport top, which is below where nav's own
+     box ends) — this caused the page to load/settle scrolled slightly down */
   gap: 40px;
   padding: 30px 20px;
-  min-height: calc(100vh - 280px);
+  min-height: calc(100vh - var(--nav-h) - 140px); /* 140px + the default --nav-h (140px) reproduces the original fixed 280px this replaced; only the nav-height portion is now adaptive */
   align-items: center;
 }
 
@@ -185,17 +335,69 @@ nav .name {
   max-width: 500px;
 }
 
+.hero-text .contact-bar {
+  margin-top: 40px;
+}
+
 .hero-text h1 {
   margin-top: 0;
+  margin-bottom: 0;
   font-size: 3rem;
+}
+
+.hero-text .title {
+  margin-top: 4px;
+  font-size: 1.3rem;
 }
 
 .hero-text p {
   font-size: 0.95rem;
 }
 
+/* scroll cue below the contact pill: thin chevron, slow bounce, mauve at low opacity */
+.scroll-cue {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 20px auto 0;
+  opacity: 0.7;
+  animation: scroll-cue-bounce 1.8s ease-in-out infinite;
+}
+
+.scroll-cue::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-right: 3px solid var(--accent-hi);
+  border-bottom: 3px solid var(--accent-hi);
+  transform: rotate(45deg);
+}
+
+@keyframes scroll-cue-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.snap-page) {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  .scroll-cue {
+    animation: none;
+  }
+}
+
 /* teaser sections on index.html: alternating photo/text, linking out to the full page */
 .feature {
+  scroll-snap-align: start;
   min-height: 100vh;
   padding: 60px 40px;
   display: flex;
@@ -226,11 +428,15 @@ nav .name {
   flex-shrink: 0;
 }
 
-/* shows the photo at its own natural size instead of the fixed cropped box */
+/* shows the photo at its own natural size instead of the fixed cropped box;
+   max-height keeps a tall portrait shot from growing the whole section past
+   one screen (which pushed content down and hid part of the photo) */
 .feature-photo-natural {
   width: auto;
   height: auto;
   max-width: 420px;
+  max-height: 65vh;
+  object-fit: contain;
 }
 
 /* coffee-shop photo is landscape, so the same width cap as a portrait shot
@@ -270,7 +476,7 @@ nav .name {
 
 .feature-text h2 {
   margin-top: 0;
-  color: var(--accent);
+  color: var(--text);
 }
 
 .feature-text p {
@@ -282,11 +488,13 @@ nav .name {
   display: inline-block;
   box-sizing: border-box;
   padding: 12px 24px;
-  background: var(--accent);
-  color: #F5EBE3; /* fixed light label: the accent fill is a dark-ish tone in both themes, so text stays light rather than flipping with --bg */
+  background: var(--sunken);
+  border: 1px solid var(--border);
+  color: var(--text);
   text-decoration: none;
   border-radius: 10px;
   font-weight: 600;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
   transition: transform 0.2s ease;
 }
 
@@ -438,4 +646,214 @@ nav .name {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
+}
+
+/* tablet: desktop row layouts stay, but fixed-width photos and nav gaps are
+   sized down so nothing forces the page wider than the viewport */
+@media screen and (max-width: 1024px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero-photo {
+    width: 320px;
+    height: 260px;
+  }
+
+  .hero-text {
+    max-width: 380px;
+  }
+
+  .feature-photo {
+    width: 300px;
+    height: 220px;
+  }
+
+  .feature-photo-natural,
+  .feature-photo-natural-wide {
+    max-width: 320px;
+  }
+}
+
+/* phone/small-tablet layout: stack everything that's a fixed-width row on desktop */
+@media screen and (max-width: 768px) {
+  :root {
+    /* nav is a single row here (the hamburger replaces wrapping): 8px
+       margin + ~44px content (the hamburger button sets the floor at the
+       44px tap-target minimum, taller than the toggle or the name text) +
+       ~14px padding/border */
+    --nav-h: calc(80px + env(safe-area-inset-top));
+  }
+
+  nav {
+    gap: 6px;
+    margin: 8px;
+    padding: 6px 14px;
+  }
+
+  nav .name {
+    font-size: 1.15rem;
+  }
+
+  .nav-right {
+    gap: 10px;
+  }
+
+  .nav-toggle-btn {
+    display: inline-flex;
+  }
+
+  /* the 3 nav links become a dropdown panel anchored below the pill instead
+     of wrapping inline — nav (position:sticky, so already a positioned
+     containing block) anchors it even though .nav-links is nested a level
+     deeper inside .nav-right */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px;
+    background: var(--sunken);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
+    z-index: 100;
+  }
+
+  nav:has(#nav-toggle:checked) .nav-links {
+    display: flex;
+  }
+
+  .nav-links a {
+    /* full-width rows, 44px-min-height tap targets — scoped to the dropdown's
+       links only; nav a would also match the "Elizabeth Zonshtein" name link */
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 12px;
+    font-size: 0.95rem;
+  }
+
+  .theme-toggle {
+    width: 38px;
+    height: 21px;
+  }
+
+  .theme-toggle-track::after {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+  }
+
+  #theme-toggle:checked ~ .theme-toggle-track::after {
+    transform: translateX(17px);
+  }
+
+  .hero {
+    flex-direction: column;
+    min-height: auto;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .contact-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 20px;
+  }
+
+  .hero-text .contact-bar {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feature {
+    min-height: auto;
+    padding: 40px 20px;
+  }
+
+  .feature-inner,
+  .feature-inner.reverse {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 56px; /* desktop's 40px gap sits between a wide photo and a wide text column side by side; stacked on mobile the photo is much taller and visually heavier, so it needs more room before the heading or it reads as glued to it */
+  }
+
+  .feature-text {
+    text-align: center;
+  }
+
+  .hero-photo,
+  .feature-photo,
+  .feature-photo-natural,
+  .feature-photo-natural-wide {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 38vh;
+    object-fit: contain;
+  }
+
+  .page-header {
+    padding: 20px 20px 0;
+  }
+
+  .card-grid {
+    padding: 20px 20px 40px;
+  }
+
+  .entry-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .entry-date {
+    text-align: left;
+  }
+}
+
+/* small phones: tighten further beyond the general mobile breakpoint */
+@media screen and (max-width: 400px) {
+  nav .name {
+    font-size: 1rem;
+  }
+
+  .hero-text h1 {
+    font-size: 1.7rem;
+  }
+
+  .contact-bar a {
+    font-size: 0.7rem;
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 19px;
+  }
+
+  .theme-toggle-track::after {
+    width: 15px;
+    height: 15px;
+    font-size: 9px;
+  }
+
+  #theme-toggle:checked ~ .theme-toggle-track::after {
+    transform: translateX(15px);
+  }
 }

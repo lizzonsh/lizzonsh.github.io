@@ -7,8 +7,8 @@
     <title>Elizabeth Zonshtein</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <svg style="display:none">
+<body class="snap-page">
+    <svg class="icon-sprite">
         <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
@@ -27,23 +27,31 @@
     </svg>
     <nav>
         <a href="index.html" class="name">Elizabeth Zonshtein</a>
-        <div class="nav-links">
-            <a href="resume.html">Resume</a>
-            <a href="analog.html">Analog Film</a>
-            <a href="up-comming-projects.html">Upcoming Projects</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="resume.html">Resume</a>
+                <a href="analog.html">Analog Film</a>
+                <a href="upcoming-projects.html">Upcoming Projects</a>
+            </div>
             <label class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark / light mode">
                 <input type="checkbox" id="theme-toggle">
                 <span class="theme-toggle-track"></span>
             </label>
+            <label class="nav-toggle-btn" aria-label="Toggle navigation menu" title="Toggle navigation menu">
+                <input type="checkbox" id="nav-toggle" class="visually-hidden">
+                <span class="hamburger-icon" aria-hidden="true"></span>
+            </label>
         </div>
     </nav>
-    <div class="hero center">
+    <main>
+    <section class="hero center">
         <div class="hero-photo-wrap">
             <img src="assets/images/profile-photo.jpeg" alt="Elizabeth Zonshtein" class="hero-photo">
             <p class="photo-caption">December 2025, Paris, France</p>
         </div>
         <div class="hero-text">
             <h1 class="name">Elizabeth Zonshtein</h1>
+            <h2 class="title">DevOps Engineer</h2>
             <p>Four years of DevOps experience — cloud infrastructure, automation, and team leadership — with a bachelor's in computer science underway.</p>
             <p>Hobbies take up the rest: film photography, and a handful of projects that haven't shipped yet.</p>
             <p>Open to inquiries and collaborations, by email or LinkedIn.</p>
@@ -52,7 +60,7 @@
                     <svg><use href="#icon-mail"></use></svg>
                     <span>lizaczon@gmail.com</span>
                 </a>
-                <a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank" aria-label="LinkedIn" title="LinkedIn">
+                <a href="https://www.linkedin.com/in/elizabeth-zonshtein" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
                     <svg><use href="#icon-linkedin"></use></svg>
                     <span>elizabeth-zonshtein</span>
                 </a>
@@ -60,45 +68,49 @@
                     <svg><use href="#icon-phone"></use></svg>
                     <span>+972&nbsp;54&nbsp;000&nbsp;0000</span>
                 </a>
-                <a href="https://github.com/lizzonsh" target="_blank" aria-label="GitHub" title="GitHub">
+                <a href="https://github.com/lizzonsh" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
                     <svg><use href="#icon-github"></use></svg>
                     <span>lizzonsh</span>
                 </a>
             </div>
+            <a href="#resume" class="scroll-cue" aria-label="Scroll to the Resume section"></a>
         </div>
-    </div>
+    </section>
 
-    <section class="feature">
+    <section class="feature" id="resume">
         <div class="feature-inner feature-inner-wide">
-            <img src="assets/images/coffe-shop-photo.JPEG" alt="Elizabeth Zonshtein" class="feature-photo feature-photo-natural feature-photo-natural-wide">
+            <img src="assets/images/coffe-shop-photo.JPEG" alt="Working from a co-working space" class="feature-photo feature-photo-natural feature-photo-natural-wide">
             <div class="feature-text">
                 <h2>Resume</h2>
                 <p>DevOps engineer with 4 years of experience leading teams and building CI/CD, monitoring, and automation across cloud and on-prem environments.</p>
                 <a href="resume.html" class="button-link">View Resume</a>
+                <a href="#analog" class="scroll-cue" aria-label="Scroll to the Analog Film section"></a>
             </div>
         </div>
     </section>
 
-    <section class="feature feature-alt">
+    <section class="feature feature-alt" id="analog">
         <div class="feature-inner reverse">
             <img src="assets/images/taking-film-photo.jpg" alt="Analog film shot" class="feature-photo feature-photo-natural">
             <div class="feature-text">
                 <h2>Analog Film</h2>
                 <p>Shooting film keeps me slow and deliberate in a way digital never did — every frame counts, and the wait for developing is half the fun.</p>
                 <a href="analog.html" class="button-link">View Analog Film Experience</a>
+                <a href="#upcoming" class="scroll-cue" aria-label="Scroll to the Upcoming Projects section"></a>
             </div>
         </div>
     </section>
 
-    <section class="feature">
+    <section class="feature" id="upcoming">
         <div class="feature-inner feature-inner-wide">
             <img src="assets/images/to-be-continued.JPEG" alt="Upcoming projects" class="feature-photo feature-photo-natural feature-photo-natural-wide">
             <div class="feature-text">
                 <h2>Upcoming Projects</h2>
                 <p>A few personal builds are in progress — details coming soon.</p>
-                <a href="up-comming-projects.html" class="button-link">View Upcoming Projects</a>
+                <a href="upcoming-projects.html" class="button-link">View Upcoming Projects</a>
             </div>
         </div>
     </section>
+    </main>
 </body>
 </html>

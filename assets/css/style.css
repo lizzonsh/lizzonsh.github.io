@@ -9,6 +9,9 @@
 html {
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: var(--accent-hi) var(--sunken); /* Firefox: thumb, track */
+  /* keeps #resume / #analog / #upcoming (and any future in-page anchor) from
+     landing with their heading tucked behind the sticky nav pill */
+  scroll-padding-top: var(--nav-h);
 }
 
 html::-webkit-scrollbar {
@@ -53,6 +56,15 @@ html:has(body.snap-page) {
   --accent:    #7A3B44;
   --accent-hi: #A8646C;
   --spark:     #8F5411;
+
+  /* total space nav occupies from the real (safe-area-aware) viewport top to
+     its own bottom edge: sticky's 20px top offset + nav's rendered box
+     height. Re-declared inside each breakpoint below where nav's box height
+     actually changes (padding/font-size/tap-target sizing), so every other
+     rule that needs to clear nav (scroll-padding-top, scroll-margin-top,
+     hero's min-height) reads one property instead of hardcoding nav's size
+     redundantly at each tier. */
+  --nav-h: calc(96px + env(safe-area-inset-top));
 }
 
 body {
@@ -110,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
 /* navigation bar styling: floating pill, detached from the viewport edges */
 nav {
   position: sticky;
-  top: 20px;
+  top: calc(20px + env(safe-area-inset-top)); /* clears the notch/status bar on full-bleed iOS installs; env() is 0 elsewhere, so this is a no-op on desktop */
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -123,10 +135,86 @@ nav {
   box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
 }
 
+/* groups the links + theme toggle + hamburger as nav's single second flex
+   child, so justify-content:space-between still only ever balances two
+   things (name / everything-else) regardless of how many controls are
+   inside — adding the hamburger couldn't otherwise change desktop's spacing */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
   gap: 25px;
+}
+
+/* hidden checkbox driving the mobile nav-links dropdown (checkbox hack, same
+   pattern as #theme-toggle below). Kept in the accessibility tree and tab
+   order via .visually-hidden rather than display:none — a checkbox's native
+   checked/unchecked state is announced by screen readers on its own, which
+   is honest, JS-free signal for "menu open/closed". What CSS genuinely can't
+   do here: keep aria-expanded in sync, close on Escape, or trap focus in the
+   open panel — those need JS, which this project deliberately doesn't have. */
+.nav-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#nav-toggle:focus-visible ~ .hamburger-icon {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.hamburger-icon {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.hamburger-icon::before {
+  top: -7px;
+}
+
+.hamburger-icon::after {
+  top: 7px;
+}
+
+/* visible-to-screen-readers-only utility: hides content visually without
+   removing it from the accessibility tree or tab order (unlike display:none
+   or visibility:hidden), so the hidden #nav-toggle checkbox stays reachable
+   and its state stays announced */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* light/dark switch */
@@ -210,9 +298,11 @@ nav .name {
 }
 
 .hero {
+  scroll-snap-align: start; /* safe now that scroll-padding-top on html accounts for nav's height — previously this pulled the initial/snapped scroll position out from under nav entirely */
+  scroll-margin-top: var(--nav-h);
   gap: 40px;
   padding: 30px 20px;
-  min-height: calc(100vh - 280px);
+  min-height: calc(100vh - var(--nav-h) - 184px); /* 184px + the default --nav-h (96px) reproduces the original fixed 280px this replaced; only the nav-height portion is now adaptive */
   align-items: center;
 }
 
@@ -305,6 +395,7 @@ nav .name {
 /* teaser sections on index.html: alternating photo/text, linking out to the full page */
 .feature {
   scroll-snap-align: start;
+  scroll-margin-top: var(--nav-h);
   min-height: 100vh;
   padding: 60px 40px;
   display: flex;
@@ -447,6 +538,7 @@ nav .name {
 
 /* shared header block for resume/projects pages */
 .page-header {
+  scroll-margin-top: var(--nav-h);
   padding: 30px 40px 0;
 }
 
@@ -558,6 +650,14 @@ nav .name {
 /* tablet: desktop row layouts stay, but fixed-width photos and nav gaps are
    sized down so nothing forces the page wider than the viewport */
 @media screen and (max-width: 1024px) {
+  :root {
+    /* nav can still wrap to 2 lines in this tier (unchanged, pre-existing
+       behavior) since the hamburger only kicks in at 768px below — this is
+       a generous estimate covering that 2-line case rather than an exact
+       measurement, since the exact height varies with how the wrap breaks */
+    --nav-h: calc(150px + env(safe-area-inset-top));
+  }
+
   nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -586,9 +686,15 @@ nav .name {
 
 /* phone/small-tablet layout: stack everything that's a fixed-width row on desktop */
 @media screen and (max-width: 768px) {
+  :root {
+    /* nav is a single row here (the hamburger replaces wrapping): 8px
+       margin + ~44px content (the hamburger button sets the floor at the
+       44px tap-target minimum, taller than the toggle or the name text) +
+       ~14px padding/border */
+    --nav-h: calc(70px + env(safe-area-inset-top));
+  }
+
   nav {
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 6px;
     margin: 8px;
     padding: 6px 14px;
@@ -598,14 +704,48 @@ nav .name {
     font-size: 1.15rem;
   }
 
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
+  .nav-right {
+    gap: 10px;
   }
 
-  nav a {
-    font-size: 0.85rem;
+  .nav-toggle-btn {
+    display: inline-flex;
+  }
+
+  /* the 3 nav links become a dropdown panel anchored below the pill instead
+     of wrapping inline — nav (position:sticky, so already a positioned
+     containing block) anchors it even though .nav-links is nested a level
+     deeper inside .nav-right */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px;
+    background: var(--sunken);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
+    z-index: 100;
+  }
+
+  nav:has(#nav-toggle:checked) .nav-links {
+    display: flex;
+  }
+
+  .nav-links a {
+    /* full-width rows, 44px-min-height tap targets — scoped to the dropdown's
+       links only; nav a would also match the "Elizabeth Zonshtein" name link */
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 12px;
+    font-size: 0.95rem;
   }
 
   .theme-toggle {
@@ -699,14 +839,6 @@ nav .name {
 @media screen and (max-width: 400px) {
   nav .name {
     font-size: 1rem;
-  }
-
-  .nav-links {
-    gap: 6px;
-  }
-
-  nav a {
-    font-size: 0.8rem;
   }
 
   .hero-text h1 {

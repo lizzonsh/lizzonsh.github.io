@@ -9,6 +9,7 @@
 html {
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: var(--accent-hi) var(--sunken); /* Firefox: thumb, track */
+  scroll-padding-top: var(--nav-h); /* keeps in-page anchor jumps (e.g. #resume) from landing under the sticky nav */
 }
 
 html::-webkit-scrollbar {
@@ -648,6 +649,132 @@ nav .name {
   border-top: 1px solid var(--border);
 }
 
+/* Analog Film index: grid of project covers. auto-fit + minmax naturally
+   collapses 3 -> 2 -> 1 columns as the viewport narrows, no breakpoints
+   needed for the column count itself. */
+.analog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 48px 32px;
+  max-width: 1100px; /* keeps the 1fr columns from stretching into oversized cards on wide screens */
+  margin: 0 auto;
+  padding: 24px 40px 60px;
+}
+
+.analog-card {
+  display: block;
+  text-decoration: none;
+}
+
+.analog-cover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+/* captions sit under the cover at all times, never a hover overlay */
+.analog-card-name {
+  display: block;
+  margin-top: 14px;
+  font-family: "Instrument Serif", serif;
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+.analog-card-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: var(--text-mute);
+}
+
+/* Analog Film project pages: metadata line under the h1 (film stock,
+   camera, date) — same italic serif caption treatment as .photo-caption */
+.project-meta {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  color: var(--accent-hi);
+}
+
+/* varied-rhythm frames, hand-arranged per project by applying these classes
+   to each <figure> — deliberately not a uniform grid */
+.frame-set {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 8px 40px 60px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.frame-set figure {
+  margin: 0;
+}
+
+.frame-set img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.frame-full img {
+  width: 100%;
+}
+
+/* one wrapper, two children placed side by side; each child keeps its own
+   native aspect ratio so a portrait next to a landscape sit at different
+   heights on purpose rather than being stretched to match */
+.frame-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.frame-narrow {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.frame-set figcaption {
+  margin-top: 10px;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  color: var(--accent-hi);
+}
+
+/* the generic `nav` element selector (site's sticky pill header) would
+   otherwise also style this bottom nav — reset its chrome/position here */
+.analog-project-nav {
+  position: static;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto 60px;
+  padding: 0 40px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-family: "Instrument Serif", serif;
+  font-size: 1.2rem;
+}
+
+.analog-project-nav a {
+  color: var(--accent-hi);
+  text-decoration: none;
+}
+
+.analog-project-nav .next {
+  text-align: right;
+}
+
 /* tablet: desktop row layouts stay, but fixed-width photos and nav gaps are
    sized down so nothing forces the page wider than the viewport */
 @media screen and (max-width: 1024px) {
@@ -825,6 +952,32 @@ nav .name {
 
   .entry-date {
     text-align: left;
+  }
+
+  .analog-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 16px 20px 40px;
+  }
+
+  .frame-set {
+    gap: 28px;
+    padding: 8px 20px 40px;
+  }
+
+  .frame-pair {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .frame-narrow {
+    width: 100%;
+  }
+
+  .analog-project-nav {
+    margin-bottom: 40px;
+    padding: 0 20px;
+    font-size: 1.05rem;
   }
 }
 

@@ -64,8 +64,11 @@ body {
   color: var(--text-mute);
 }
 
-/* dark mode: CSS-only via the hidden checkbox in the nav */
-body:has(#theme-toggle:checked) {
+/* dark mode: CSS-only via the hidden checkbox in the nav.
+   :root, not body, so html's own scrollbar-color/::-webkit-scrollbar-track
+   (an ancestor of body, so it wouldn't inherit an override set on body)
+   also picks up the dark values. */
+:root:has(#theme-toggle:checked) {
   --bg:        #0D0B08;
   --surface:   #1C1611;
   --sunken:    #231C19;
@@ -927,7 +930,7 @@ footer a {
   }
 
   :root,
-  body:has(#theme-toggle:checked) {
+  :root:has(#theme-toggle:checked) {
     --bg:        #F1EFEE;
     --surface:   #FFF;
     --sunken:    #F1EFEE;

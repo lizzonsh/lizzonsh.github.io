@@ -299,7 +299,9 @@ nav .name {
 }
 
 .hero-text {
-  max-width: 500px;
+  /* wide enough that the contact bar's 4 items fit on one line without
+     shrinking their text back down to the illegible size it had before */
+  max-width: 660px;
 }
 
 .hero-text h1 {
@@ -324,6 +326,7 @@ nav .name {
 /* stylelint-disable-next-line no-descending-specificity -- intentional: base pill styles after the hero-scoped margin override above */
 .contact-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 14px;
   width: fit-content;

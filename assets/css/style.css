@@ -60,9 +60,9 @@ html::-webkit-scrollbar-thumb:hover {
   --sunken:    #DAD2CF;
   --border:    #C6BBB5;
   --text:      #241C1A;
-  --text-mute: #6A5C57;
+  --text-mute: #5F5148;
   --accent:    #7A3B44;
-  --accent-hi: #A8646C;
+  --accent-hi: #8F4E57;
   --spark:     #8F5411;
 
   /* total space nav occupies from the (safe-area-aware) viewport top to its
@@ -846,6 +846,12 @@ footer a {
     z-index: 100;
   }
 
+  /* known limitation of the checkbox toggle: tapping a link inside doesn't
+     re-close the panel (the checkbox stays checked), so it stays open until
+     the hamburger is tapped again. Deliberate rather than fixed with
+     :focus-within, since .nav-right also wraps the theme toggle and scoping
+     that correctly needs no-JS coordination not worth it for a dropdown a
+     scroll or a second tap dismisses anyway. */
   .nav-right:has(#nav-toggle:checked) .nav-links {
     display: flex;
   }

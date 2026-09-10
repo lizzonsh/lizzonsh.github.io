@@ -132,6 +132,7 @@ nav {
   box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- intentional: nav-scoped override of the base `a` styles above */
 nav a {
   display: inline-block;
   color: var(--text);
@@ -179,6 +180,7 @@ nav .name {
   outline-offset: 3px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- intentional: base bar styles after the focus-visible override above */
 .hamburger-icon {
   position: relative;
   display: block;
@@ -216,7 +218,7 @@ nav .name {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
@@ -331,6 +333,7 @@ nav .name {
 }
 
 /* single pill holding all contact icon + info items in one line */
+/* stylelint-disable-next-line no-descending-specificity -- intentional: base pill styles after the hero-scoped margin override above */
 .contact-bar {
   display: flex;
   align-items: center;
@@ -432,6 +435,7 @@ nav .name {
   margin-top: 24px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- intentional: base button styles after the section-header margin override above */
 .button-link {
   display: inline-block;
   box-sizing: border-box;
@@ -709,7 +713,7 @@ nav .name {
 
 /* ---------- tablet ---------- */
 
-@media screen and (max-width: 1024px) {
+@media screen and (width <= 1024px) {
   nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -728,7 +732,7 @@ nav .name {
 
 /* ---------- phone / small tablet ---------- */
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   :root {
     /* nav is a single row here: 8px margin + ~44px content (hamburger tap
        target) + ~14px padding/border */
@@ -862,7 +866,7 @@ nav .name {
 
 /* ---------- small phones ---------- */
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   nav .name {
     font-size: 1rem;
   }
@@ -906,7 +910,7 @@ nav .name {
   :root,
   body:has(#theme-toggle:checked) {
     --bg:        #F1EFEE;
-    --surface:   #FFFFFF;
+    --surface:   #FFF;
     --sunken:    #F1EFEE;
     --border:    #C6BBB5;
     --text:      #241C1A;
@@ -916,6 +920,7 @@ nav .name {
     --spark:     #8F5411;
   }
 
+  /* stylelint-disable-next-line no-descending-specificity -- intentional: plain print fallback after the dark-mode override above */
   body {
     background: #fff;
   }

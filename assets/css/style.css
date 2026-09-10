@@ -8,6 +8,25 @@
   display: none;
 }
 
+/* off-screen until focused, so keyboard users can jump past the nav
+   straight to <main> without it taking up space for everyone else */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 12px;
+  z-index: 1000;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y proximity; /* gently settles on each section's top edge when you stop near it */
@@ -82,11 +101,6 @@ body {
 
 a {
   color: var(--accent);
-  transition: transform 0.2s ease;
-}
-
-a:hover {
-  transform: translateY(-2px);
 }
 
 a:focus-visible {
@@ -144,6 +158,11 @@ nav a {
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+nav a:hover {
+  transform: translateY(-2px);
 }
 
 nav .name {
@@ -164,11 +183,15 @@ nav .name {
   display: flex;
   align-items: center;
   gap: 25px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-/* hamburger: a plain link to #mobile-nav drives the mobile dropdown via
-   :target, so following any nav link inside it changes the target and
-   closes it automatically. Desktop hides the button entirely; the mobile
+/* hamburger: a hidden checkbox + label, same CSS-only toggle pattern as
+   .theme-toggle below, so the click is a real two-state toggle (unlike the
+   old #mobile-nav:target link, a second click on it now closes the menu
+   instead of doing nothing). Desktop hides the button entirely; the mobile
    breakpoint shows it. */
 .nav-toggle-btn {
   display: none;
@@ -180,7 +203,14 @@ nav .name {
   cursor: pointer;
 }
 
-.nav-toggle-btn:focus-visible {
+.nav-toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.nav-toggle-btn:has(#nav-toggle:focus-visible) {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -276,6 +306,11 @@ nav .name {
   gap: 40px;
   padding: 30px 20px;
   min-height: calc(100vh - var(--nav-h) - 140px);
+
+  /* dvh accounts for the mobile browser chrome that comes and goes on
+     scroll, so the hero doesn't jump once it's hidden; vh above is the
+     fallback for browsers without dvh support */
+  min-height: calc(100dvh - var(--nav-h) - 140px);
   align-items: center;
 }
 
@@ -341,6 +376,7 @@ nav .name {
   border-radius: 999px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- intentional: unrelated `nav a` styles happen to share a selector shape */
 .contact-bar a {
   display: flex;
   align-items: center;
@@ -399,6 +435,13 @@ nav .name {
   scroll-snap-align: start;
   padding: 60px 40px;
   border-top: 1px solid var(--border);
+}
+
+/* Resume runs much taller than the viewport, so start-snapping it tends to
+   pull the page back to its top edge mid-scroll on slower/touch scrolling;
+   Projects and Hobbies stay snapped since they're closer to viewport height */
+#resume {
+  scroll-snap-align: none;
 }
 
 .section-alt {
@@ -682,7 +725,7 @@ footer p {
   font-size: 0.9rem;
 }
 
-/* stylelint-disable-next-line no-descending-specificity -- intentional: footer-scoped override of the base `a:hover` styles above */
+/* stylelint-disable-next-line no-descending-specificity -- intentional: footer-scoped override of the base `a:focus-visible` styles above */
 footer a {
   color: var(--accent);
 }
@@ -691,6 +734,11 @@ footer a {
   display: inline-block;
   font-size: 0.85rem;
   color: var(--text-mute);
+  transition: transform 0.2s ease;
+}
+
+.footer-top:hover {
+  transform: translateY(-2px);
 }
 
 /* ---------- scroll-driven reveal (CSS only) ---------- */
@@ -798,7 +846,7 @@ footer a {
     z-index: 100;
   }
 
-  #mobile-nav:target {
+  .nav-right:has(#nav-toggle:checked) .nav-links {
     display: flex;
   }
 

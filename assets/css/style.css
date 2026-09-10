@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
-
 /* ---------- base ---------- */
+
+/* Google Fonts are loaded via <link> in <head> (preconnect + stylesheet)
+   rather than @import here, since @import blocks CSS parsing until fetched */
 
 /* hidden <symbol> defs referenced via <use> in the contact bar */
 .icon-sprite {
@@ -67,7 +68,7 @@ body {
 body:has(#theme-toggle:checked) {
   --bg:        #0D0B08;
   --surface:   #1C1611;
-  --sunken:    #231C09;
+  --sunken:    #231C19;
   --border:    #3A2C26;
   --text:      #F2DED4;
   --text-mute: #C9A49B;
@@ -104,6 +105,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .title {
+  margin: 0;
   font-family: "Instrument Serif", serif;
   font-weight: 700;
   color: var(--accent-hi);
@@ -339,7 +341,7 @@ nav .name {
   gap: 6px;
   color: var(--text-mute);
   text-decoration: none;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   white-space: nowrap;
   transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -350,8 +352,8 @@ nav .name {
 }
 
 .contact-bar svg {
-  width: 13px;
-  height: 13px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
@@ -658,6 +660,33 @@ nav .name {
   color: var(--accent-hi);
 }
 
+/* ---------- footer ---------- */
+
+footer {
+  padding: 32px 20px;
+  text-align: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- intentional: footer-scoped override of the base `p` styles above */
+footer p {
+  margin: 0 0 8px;
+  color: var(--text-mute);
+  font-size: 0.9rem;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- intentional: footer-scoped override of the base `a:hover` styles above */
+footer a {
+  color: var(--accent);
+}
+
+.footer-top {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-mute);
+}
+
 /* ---------- scroll-driven reveal (CSS only) ---------- */
 
 /* fades/slides each card and photo in as it scrolls into view, tied to scroll
@@ -862,7 +891,7 @@ nav .name {
   }
 
   .contact-bar a {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
   }
 
   .theme-toggle {
@@ -889,6 +918,7 @@ nav .name {
   .theme-toggle,
   .nav-toggle-btn,
   .scroll-cue,
+  .footer-top,
   .section-header .button-link {
     display: none !important;
   }

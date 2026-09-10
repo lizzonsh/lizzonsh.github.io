@@ -8,7 +8,7 @@ Elizabeth Zonshtein's personal site — a single-page portfolio covering resume,
 index.html              All page content (hero, resume, projects, hobbies)
 assets/css/style.css     Styles, including dark mode and the mobile nav
 assets/images/           Photos referenced by index.html
-assets/docs/             Resume PDF (gitignored, not tracked in this repo)
+assets/docs/             Resume PDF
 ```
 
 ## Local preview

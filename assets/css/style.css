@@ -1,5 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap');
+/* ---------- base ---------- */
+
+/* Google Fonts are loaded via <link> in <head> (preconnect + stylesheet)
+   rather than @import here, since @import blocks CSS parsing until fetched */
+
+/* hidden <symbol> defs referenced via <use> in the contact bar */
+.icon-sprite {
+  display: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity; /* gently settles on each section's top edge when you stop near it */
+  scroll-padding-top: var(--nav-h); /* keeps in-page anchor jumps (#resume, #projects...) from landing under the sticky nav */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--accent-hi) var(--sunken); /* Firefox: thumb, track */
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--sunken);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--accent-hi);
+  border-radius: 999px;
+  border: 2px solid var(--sunken);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
 
 /* color palette: light by default, dark when the toggle in the nav is checked */
 :root {
@@ -12,22 +45,30 @@
   --accent:    #7A3B44;
   --accent-hi: #A8646C;
   --spark:     #8F5411;
+
+  /* total space nav occupies from the (safe-area-aware) viewport top to its
+     own bottom edge: sticky's 20px top offset + nav's rendered box height.
+     Re-declared in the mobile breakpoint where nav's box height changes.
+     Deliberately generous: undershooting clips headings behind nav while
+     overshooting only adds a little whitespace. */
+  --nav-h: calc(140px + env(safe-area-inset-top));
 }
 
 body {
   font-family: "Schibsted Grotesk", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 400; /* Sets the default weight for regular text */
+  font-weight: 400;
   font-style: normal;
   margin: 0;
   background: var(--bg);
   color: var(--text-mute);
 }
 
+/* dark mode: CSS-only via the hidden checkbox in the nav */
 body:has(#theme-toggle:checked) {
   --bg:        #0D0B08;
   --surface:   #1C1611;
-  --sunken:    #231C09;
+  --sunken:    #231C19;
   --border:    #3A2C26;
   --text:      #F2DED4;
   --text-mute: #C9A49B;
@@ -41,28 +82,46 @@ a {
   transition: transform 0.2s ease;
 }
 
-/* everything under a tag in nav will be styled with this */
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
 a:hover {
   transform: translateY(-2px);
 }
 
-/* bold for heading */
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700; /* Headings will automatically use the bold version */
+  font-weight: 700;
   color: var(--text);
 }
 
-/* navigation bar styling: floating pill, detached from the viewport edges */
+/* the name and title use the serif accent face wherever they appear */
+.name {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  color: var(--accent-hi);
+}
+
+.title {
+  margin: 0;
+  font-family: "Instrument Serif", serif;
+  font-weight: 700;
+  color: var(--accent-hi);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---------- nav: floating sticky pill ---------- */
+
 nav {
   position: sticky;
-  top: 20px;
+  top: calc(20px + env(safe-area-inset-top)); /* clears the notch on full-bleed iOS; env() is 0 elsewhere */
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -75,10 +134,81 @@ nav {
   box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- intentional: nav-scoped override of the base `a` styles above */
+nav a {
+  display: inline-block;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+nav .name {
+  color: var(--accent-hi);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* links + theme toggle + hamburger grouped as nav's single second flex child,
+   so space-between only ever balances two things (name / everything-else) */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
   gap: 25px;
+}
+
+/* hamburger: a plain link to #mobile-nav drives the mobile dropdown via
+   :target, so following any nav link inside it changes the target and
+   closes it automatically. Desktop hides the button entirely; the mobile
+   breakpoint shows it. */
+.nav-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.nav-toggle-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- intentional: base bar styles after the focus-visible override above */
+.hamburger-icon {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+}
+
+.hamburger-icon::before {
+  top: -7px;
+}
+
+.hamburger-icon::after {
+  top: 7px;
 }
 
 /* light/dark switch */
@@ -106,6 +236,11 @@ nav {
   transition: background 0.2s ease;
 }
 
+#theme-toggle:focus-visible ~ .theme-toggle-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .theme-toggle-track::after {
   content: "\2600";
   position: absolute;
@@ -117,6 +252,7 @@ nav {
   align-items: center;
   justify-content: center;
   font-size: 12px;
+  font-variant-emoji: text;
   border-radius: 50%;
   background: var(--accent);
   color: var(--bg);
@@ -129,33 +265,14 @@ nav {
   background: var(--accent-hi);
 }
 
-/* makes the name stand out wherever it appears on the page: highlight accent */
-.name {
-  font-family: "Instrument Serif", serif;
-  font-weight: 400;
-  color: var(--accent-hi);
-}
-
-.page-header .title {
-  color: var(--accent-hi);
-}
-
-/* bigger, bolder version of the name specifically in the nav bar */
-nav .name {
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* ---------- hero ---------- */
 
 .hero {
+  /* no scroll-snap-align here: hero is the resting scroll-top-0 view, and
+     snapping it to itself pulled the page slightly down on load */
   gap: 40px;
   padding: 30px 20px;
-  min-height: calc(100vh - 280px);
+  min-height: calc(100vh - var(--nav-h) - 140px);
   align-items: center;
 }
 
@@ -186,115 +303,25 @@ nav .name {
 }
 
 .hero-text h1 {
-  margin-top: 0;
+  margin: 0;
   font-size: 3rem;
+}
+
+.hero-text .title {
+  margin-top: 4px;
+  font-size: 1.3rem;
 }
 
 .hero-text p {
   font-size: 0.95rem;
 }
 
-/* teaser sections on index.html: alternating photo/text, linking out to the full page */
-.feature {
-  min-height: 100vh;
-  padding: 60px 40px;
-  display: flex;
-  align-items: center;
+.hero-text .contact-bar {
+  margin-top: 40px;
 }
 
-.feature-alt {
-  background: var(--surface);
-}
-
-.feature-inner {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.feature-inner.reverse {
-  flex-direction: row-reverse;
-}
-
-.feature-photo {
-  width: 420px;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 12px;
-  flex-shrink: 0;
-}
-
-/* shows the photo at its own natural size instead of the fixed cropped box */
-.feature-photo-natural {
-  width: auto;
-  height: auto;
-  max-width: 420px;
-}
-
-/* coffee-shop photo is landscape, so the same width cap as a portrait shot
-   (taking-film-photo) renders much shorter; give it a wider cap so the two
-   read as closer in size, paired with .feature-inner-wide for room to grow */
-.feature-photo-natural-wide {
-  max-width: 600px;
-}
-
-.feature-inner-wide {
-  max-width: 1050px;
-}
-
-/* CSS-only scroll-driven animation: photo grows as its section scrolls into
-   view and shrinks again as it scrolls out. No JS needed; browsers without
-   support for animation-timeline just show the photo at full size. */
-@keyframes feature-photo-scale {
-  0%, 100% {
-    transform: scale(0.75);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  .feature-photo {
-    animation: feature-photo-scale linear;
-    animation-timeline: view();
-  }
-}
-
-.feature-text {
-  flex: 1;
-}
-
-.feature-text h2 {
-  margin-top: 0;
-  color: var(--accent);
-}
-
-.feature-text p {
-  color: var(--text-mute);
-  margin: 0 0 20px;
-}
-
-.button-link {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 12px 24px;
-  background: var(--accent);
-  color: #F5EBE3; /* fixed light label: the accent fill is a dark-ish tone in both themes, so text stays light rather than flipping with --bg */
-  text-decoration: none;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: transform 0.2s ease;
-}
-
-.button-link:hover {
-  transform: translateY(-4px);
-}
-
-/* single pill holding all contact icon + info items in one line, index.html hero only */
+/* single pill holding all contact icon + info items in one line */
+/* stylelint-disable-next-line no-descending-specificity -- intentional: base pill styles after the hero-scoped margin override above */
 .contact-bar {
   display: flex;
   align-items: center;
@@ -314,7 +341,7 @@ nav .name {
   gap: 6px;
   color: var(--text-mute);
   text-decoration: none;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   white-space: nowrap;
   transition: transform 0.2s ease, color 0.2s ease;
 }
@@ -325,40 +352,111 @@ nav .name {
 }
 
 .contact-bar svg {
-  width: 13px;
-  height: 13px;
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
-/* shared header block for resume/projects pages */
-.page-header {
-  padding: 30px 40px 0;
+/* scroll cue under the contact pill: thin chevron with a slow bounce */
+.scroll-cue {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 20px auto 0;
+  opacity: 0.7;
+  animation: scroll-cue-bounce 1.8s ease-in-out infinite;
 }
 
-.page-header p {
-  margin: 4px 0;
-  color: var(--text-mute);
+.scroll-cue::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-right: 3px solid var(--accent-hi);
+  border-bottom: 3px solid var(--accent-hi);
+  transform: rotate(45deg);
 }
 
-.page-header .button-link {
+@keyframes scroll-cue-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+/* ---------- page sections (Resume / Projects / Hobbies) ---------- */
+
+.page-section {
+  scroll-snap-align: start;
+  padding: 60px 40px;
+  border-top: 1px solid var(--border);
+}
+
+.section-alt {
+  background: var(--surface);
+}
+
+/* centers header + content as one block on wide viewports */
+.section-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.section-header h2 {
+  margin: 0 0 8px;
+  font-size: 2.2rem;
+  color: var(--accent);
+}
+
+.section-header p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.section-header .button-link {
   margin-top: 24px;
 }
 
-/* grid of section cards on resume.html */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 24px 40px 60px;
-  align-items: start;
+/* stylelint-disable-next-line no-descending-specificity -- intentional: base button styles after the section-header margin override above */
+.button-link {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 12px 24px;
+  background: var(--sunken);
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
+  transition: transform 0.2s ease;
 }
 
-/* stack cards in a single column, e.g. resume.html */
-.card-grid.stacked {
-  grid-template-columns: 1fr;
+.button-link:hover {
+  transform: translateY(-4px);
+}
+
+/* ---------- cards ---------- */
+
+/* min(340px, 100%) lets the column shrink below 340px on narrow phones
+   instead of overflowing the viewport */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+  gap: 24px;
+  padding-top: 32px;
+  align-items: stretch;
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -366,61 +464,26 @@ nav .name {
   box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
 }
 
-/* CSS-only scroll-driven reveal: fades/slides each card in as it scrolls into
-   view, tied directly to scroll position so it reverses when scrolling back
-   up. No JS; browsers without animation-timeline support just show the card
-   at full opacity. */
-@keyframes card-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  .card {
-    animation: card-reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 100%;
-  }
-}
-
-.card h2 {
-  margin-top: 0;
-  color: var(--accent);
+/* Experience spans the full grid width instead of sharing a row */
+.card-full {
+  grid-column: 1 / -1;
 }
 
 .card h3 {
-  margin-bottom: 4px;
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+.card h4 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
 }
 
 .card p {
   margin: 2px 0 10px;
   color: var(--text-mute);
   font-size: 0.95rem;
-}
-
-/* title/org on the left, date range right-aligned */
-.entry-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-}
-
-.entry-date {
-  white-space: nowrap;
-  text-align: right;
-}
-
-.entry-row .entry-org,
-.entry-row .entry-date {
-  margin: 0;
 }
 
 .card ul {
@@ -433,9 +496,464 @@ nav .name {
   font-size: 0.95rem;
 }
 
-/* separates stacked entries within a section card (e.g. multiple jobs under Experience) */
+.card .button-link {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* inline Why / What / Where-it's-going labels within a project card */
+.detail-label {
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* title/org on the left, date range right-aligned */
+.entry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.entry-row h3 {
+  margin-bottom: 8px;
+}
+
+.entry-date {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.entry-row .entry-org,
+.entry-row .entry-date {
+  margin: 0;
+}
+
+/* separates stacked entries within a card (e.g. multiple jobs) */
 .entry + .entry {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
+}
+
+/* CSS-only vertical timeline for Experience: a rail with a dot per role */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline .entry {
+  position: relative;
+}
+
+.timeline .entry::before {
+  content: "";
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--surface);
+}
+
+.timeline .entry + .entry {
+  border-top: none;
+}
+
+/* project status pill, paired with .entry-row for title alignment */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-live {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.status-progress {
+  background: var(--spark);
+  border-color: var(--spark);
+  color: var(--bg);
+}
+
+.status-planned {
+  background: var(--sunken);
+  color: var(--text-mute);
+}
+
+/* labeled groups of skill chips */
+.skill-group {
+  margin-bottom: 14px;
+}
+
+.skill-group:last-child {
+  margin-bottom: 0;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--sunken);
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+/* ---------- hobbies: small film-photo grid ---------- */
+
+.hobby-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 24px;
+  padding-top: 32px;
+}
+
+.hobby-grid figure {
+  margin: 0;
+}
+
+.hobby-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.hobby-grid figcaption {
+  margin-top: 10px;
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--accent-hi);
+}
+
+/* ---------- footer ---------- */
+
+footer {
+  padding: 32px 20px;
+  text-align: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- intentional: footer-scoped override of the base `p` styles above */
+footer p {
+  margin: 0 0 8px;
+  color: var(--text-mute);
+  font-size: 0.9rem;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- intentional: footer-scoped override of the base `a:hover` styles above */
+footer a {
+  color: var(--accent);
+}
+
+.footer-top {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-mute);
+}
+
+/* ---------- scroll-driven reveal (CSS only) ---------- */
+
+/* fades/slides each card and photo in as it scrolls into view, tied to scroll
+   position so it reverses when scrolling back up. Browsers without
+   animation-timeline support just show everything at full opacity. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .card,
+  .hobby-grid figure {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  .scroll-cue,
+  .card,
+  .hobby-grid figure {
+    animation: none;
+  }
+}
+
+/* ---------- tablet ---------- */
+
+@media screen and (width <= 1024px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero-photo {
+    width: 320px;
+    height: 260px;
+  }
+
+  .hero-text {
+    max-width: 380px;
+  }
+}
+
+/* ---------- phone / small tablet ---------- */
+
+@media screen and (width <= 768px) {
+  :root {
+    /* nav is a single row here: 8px margin + ~44px content (hamburger tap
+       target) + ~14px padding/border */
+    --nav-h: calc(80px + env(safe-area-inset-top));
+  }
+
+  nav {
+    gap: 6px;
+    margin: 8px;
+    padding: 6px 14px;
+  }
+
+  nav .name {
+    font-size: 1.15rem;
+  }
+
+  .nav-right {
+    gap: 10px;
+  }
+
+  .nav-toggle-btn {
+    display: inline-flex;
+  }
+
+  /* the nav links become a dropdown panel anchored below the pill; nav
+     (position:sticky) is the positioned containing block */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px;
+    background: var(--sunken);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
+    z-index: 100;
+  }
+
+  #mobile-nav:target {
+    display: flex;
+  }
+
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px; /* tap-target minimum */
+    padding: 6px 12px;
+    font-size: 0.95rem;
+  }
+
+  .theme-toggle {
+    width: 38px;
+    height: 21px;
+  }
+
+  .theme-toggle-track::after {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+  }
+
+  #theme-toggle:checked ~ .theme-toggle-track::after {
+    transform: translateX(17px);
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: stretch; /* stacked children take the full width; centering them instead let long text overflow both edges */
+    min-height: auto;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero-text,
+  .hero-photo-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-photo {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 38vh;
+    object-fit: contain;
+  }
+
+  .contact-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 20px;
+  }
+
+  .hero-text .contact-bar {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .page-section {
+    padding: 40px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .entry-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .entry-date {
+    text-align: left;
+  }
+}
+
+/* ---------- small phones ---------- */
+
+@media screen and (width <= 400px) {
+  nav .name {
+    font-size: 1rem;
+  }
+
+  .hero-text h1 {
+    font-size: 1.7rem;
+  }
+
+  .contact-bar a {
+    font-size: 0.85rem;
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 19px;
+  }
+
+  .theme-toggle-track::after {
+    width: 15px;
+    height: 15px;
+    font-size: 9px;
+  }
+
+  #theme-toggle:checked ~ .theme-toggle-track::after {
+    transform: translateX(15px);
+  }
+}
+
+/* ---------- print ---------- */
+
+/* strip chrome and force light colors even if the dark toggle is checked */
+@media print {
+  nav,
+  .theme-toggle,
+  .nav-toggle-btn,
+  .scroll-cue,
+  .footer-top,
+  .section-header .button-link {
+    display: none !important;
+  }
+
+  :root,
+  body:has(#theme-toggle:checked) {
+    --bg:        #F1EFEE;
+    --surface:   #FFF;
+    --sunken:    #F1EFEE;
+    --border:    #C6BBB5;
+    --text:      #241C1A;
+    --text-mute: #4A3F3B;
+    --accent:    #7A3B44;
+    --accent-hi: #7A3B44;
+    --spark:     #8F5411;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity -- intentional: plain print fallback after the dark-mode override above */
+  body {
+    background: #fff;
+  }
+
+  .card,
+  .hobby-grid figure {
+    box-shadow: none;
+    border-radius: 0;
+    animation: none !important;
+    break-inside: avoid;
+  }
+
+  .entry {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+  }
 }
